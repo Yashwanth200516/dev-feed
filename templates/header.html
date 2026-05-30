@@ -1,0 +1,126 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+  <div class="container">
+
+    <!-- Logo -->
+    <a class="navbar-brand fw-bold fs-4" href="/">
+      DevFeed
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+
+      <!-- Search -->
+      <form
+        class="mx-auto d-flex"
+        method="GET"
+        action="/"
+        style="width:400px;"
+      >
+        <input
+          class="form-control me-2"
+          type="search"
+          name="q"
+          placeholder="Search posts..."
+          value="{{ request.GET.q }}"
+        >
+
+        <button
+          class="btn btn-outline-light"
+          type="submit"
+        >
+          Search
+        </button>
+      </form>
+
+      {% if user.is_authenticated %}
+
+      <!-- Profile Dropdown -->
+      <div class="dropdown">
+
+        <button
+          class="btn border-0 d-flex align-items-center gap-2 text-white"
+          type="button"
+          data-bs-toggle="dropdown"
+        >
+
+          <div
+            class="rounded-circle bg-success d-flex justify-content-center align-items-center fw-bold"
+            style="width:40px;height:40px;"
+          >
+            {{ user.username|first|upper }}
+          </div>
+
+          <span>{{ user.username }}</span>
+
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-end shadow">
+
+          <li>
+            <a
+              class="dropdown-item"
+              href="/profile/{{ user.username }}/"
+            >
+              👤 My Profile
+            </a>
+          </li>
+
+          <li>
+            <a
+              class="dropdown-item"
+              href="/add-post/"
+            >
+              ✍️ Create Post
+            </a>
+          </li>
+
+          <li>
+            <a
+              class="dropdown-item"
+              href="/"
+            >
+              🏠 Home
+            </a>
+          </li>
+
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li>
+            <a
+              class="dropdown-item text-danger"
+              href="/logout/"
+            >
+              🚪 Logout
+            </a>
+          </li>
+
+        </ul>
+
+      </div>
+
+      {% else %}
+
+      <a
+        href="/login/"
+        class="btn btn-primary"
+      >
+        Login
+      </a>
+
+      {% endif %}
+
+    </div>
+
+  </div>
+</nav>

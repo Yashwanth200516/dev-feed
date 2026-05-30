@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-8">
+
+        <div class="card border-0 shadow">
+
+            <div class="card-body p-4">
+
+                <!-- Author -->
+                <div class="d-flex align-items-center mb-3">
+
+                    <div
+                        class="rounded-circle bg-success text-white d-flex justify-content-center align-items-center fw-bold"
+                        style="width:50px;height:50px;"
+                    >
+                        {{ post.user.username|first|upper }}
+                    </div>
+
+                    <div class="ms-3">
+
+                        <h6 class="mb-0">
+                            {{ post.user.username }}
+                        </h6>
+
+                        <small class="text-muted">
+                            {{ post.created_at|timesince }} ago
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <!-- Title -->
+                <h2 class="mb-3">
+                    {{ post.title }}
+                </h2>
+
+                <!-- Content -->
+                <p style="white-space: pre-line;">
+                    {{ post.content }}
+                </p>
+
+                <hr>
+
+                <!-- Like -->
+                <a
+                    href="/like/{{ post.id }}/"
+                    class="btn btn-outline-danger btn-sm"
+                >
+                    ❤️ {{ post.likes.count }}
+                </a>
+
+                {% if user == post.user %}
+
+                <a
+                    href="/edit/{{ post.id }}"
+                    class="btn btn-warning btn-sm"
+                >
+                    Edit
+                </a>
+
+                <a
+                    href="/delete/{{ post.id }}"
+                    class="btn btn-danger btn-sm"
+                >
+                    Delete
+                </a>
+
+                {% endif %}
+
+                <a
+                    href="/"
+                    class="btn btn-secondary btn-sm"
+                >
+                    Back
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- Comments -->
+        <div class="card border-0 shadow mt-4">
+
+            <div class="card-body">
+
+                <h4 class="mb-3">
+                    Comments
+                </h4>
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <textarea
+                        name="comment"
+                        class="form-control mb-3"
+                        rows="3"
+                        placeholder="Write a comment..."
+                    ></textarea>
+
+                    <button
+                        class="btn btn-primary"
+                    >
+                        Post Comment
+                    </button>
+
+                </form>
+
+                <hr>
+
+                {% for comment in comments %}
+
+                <div class="mb-3">
+
+                    <div class="d-flex align-items-center">
+
+                        <div
+                            class="rounded-circle bg-secondary text-white d-flex justify-content-center align-items-center"
+                            style="width:35px;height:35px;"
+                        >
+                            {{ comment.user.username|first|upper }}
+                        </div>
+
+                        <div class="ms-2">
+
+                            <b>
+                                {{ comment.user.username }}
+                            </b>
+
+                        </div>
+
+                    </div>
+
+                    <p class="ms-5 mt-2">
+                        {{ comment.content }}
+                    </p>
+
+                </div>
+
+                <hr>
+
+                {% empty %}
+
+                <p class="text-muted">
+                    No comments yet.
+                </p>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

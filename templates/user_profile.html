@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Profile Header -->
+<div class="card border-0 shadow mb-4">
+
+    <div class="card-body p-4">
+
+        <div class="d-flex align-items-center">
+
+            <div
+                class="rounded-circle bg-success text-white d-flex justify-content-center align-items-center fw-bold"
+                style="width:90px;height:90px;font-size:35px;"
+            >
+                {{ profile_user.username|first|upper }}
+            </div>
+
+            <div class="ms-4">
+
+                <h2 class="mb-1">
+                    {{ profile_user.username }}
+                </h2>
+
+                <p class="text-muted mb-2">
+                    Member of TweetHere
+                </p>
+
+                <div class="d-flex gap-3">
+
+                    <span class="badge bg-primary">
+                        {{ posts.count }} Posts
+                    </span>
+
+                    <span class="badge bg-danger">
+                        {{ profile_user.liked_posts.count }} Likes
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Posts -->
+<div class="mb-3">
+
+    <h3>
+        My Posts
+    </h3>
+
+</div>
+
+{% for post in posts %}
+
+<div class="card border-0 shadow-sm mb-3">
+
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-start">
+
+            <div>
+
+                <h5>
+
+                    <a
+                        href="/post/{{ post.id }}"
+                        class="text-decoration-none text-dark"
+                    >
+                        {{ post.title }}
+                    </a>
+
+                </h5>
+
+                <small class="text-muted">
+                    {{ post.created_at|timesince }} ago
+                </small>
+
+            </div>
+
+            {% if request.user == profile_user %}
+
+            <div>
+
+                <a
+                    href="/edit/{{ post.id }}"
+                    class="btn btn-outline-warning btn-sm"
+                >
+                    Edit
+                </a>
+
+                <a
+                    href="/delete/{{ post.id }}"
+                    class="btn btn-outline-danger btn-sm"
+                >
+                    Delete
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+        <hr>
+
+        <p>
+            {{ post.content|truncatewords:25 }}
+        </p>
+
+        <div class="d-flex justify-content-between">
+
+            <small class="text-muted">
+                ❤️ {{ post.likes.count }} Likes
+            </small>
+
+            <a
+                href="/post/{{ post.id }}"
+                class="text-decoration-none"
+            >
+                Read More →
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% empty %}
+
+<div class="card">
+
+    <div class="card-body text-center">
+
+        <h5>
+            No Posts Yet
+        </h5>
+
+        {% if request.user == profile_user %}
+
+        <a
+            href="/add-post/"
+            class="btn btn-success mt-2"
+        >
+            Create First Post
+        </a>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+{% endblock %}

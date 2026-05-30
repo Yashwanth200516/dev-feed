@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    {% for post in posts %}
+
+    <div class="col-lg-8 mb-3">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body">
+
+                <!-- User Info -->
+                <div class="d-flex align-items-center mb-3">
+
+                    <div class="rounded-circle bg-success text-white d-flex justify-content-center align-items-center"
+                         style="width:45px;height:45px;">
+                        {{ post.user.username|first|upper }}
+                    </div>
+
+                    <div class="ms-3">
+                        <h6 class="mb-0">{{ post.user.username }}</h6>
+
+                        <small class="text-muted">
+                            {{ post.created_at }}
+                        </small>
+                    </div>
+
+                </div>
+
+                <!-- Title -->
+                <h4>
+                    <a href="/post/{{ post.id }}"
+                       class="text-decoration-none text-dark">
+                        {{ post.title }}
+                    </a>
+                </h4>
+
+                <!-- Content -->
+                <p class="text-secondary">
+                    {{ post.content|truncatewords:30 }}
+                </p>
+
+                <hr>
+
+                <!-- Actions -->
+                <div class="d-flex justify-content-between align-items-center">
+
+                    {% if request.user in post.likes.all %}
+
+                    <a href="/like/{{ post.id }}/"
+                       class="btn btn-danger btn-sm">
+                        ❤️ {{ post.likes.count }}
+                    </a>
+
+                    {% else %}
+
+                    <a href="/like/{{ post.id }}/"
+                       class="btn btn-outline-danger btn-sm">
+                        🤍 {{ post.likes.count }}
+                    </a>
+
+                    {% endif %}
+
+                    <a href="/post/{{ post.id }}"
+                       class="btn btn-outline-dark btn-sm">
+                        Read More →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center mt-5">
+
+    <div class="col-md-5 col-lg-4">
+
+        <div class="card border-0 shadow">
+
+            <div class="card-body p-5">
+
+                <!-- Logo -->
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold">DevFeed</h2>
+                    <p class="text-muted">
+                        Welcome back 👋
+                    </p>
+                </div>
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <!-- Username -->
+                    <div class="mb-3">
+
+                        <label class="form-label fw-bold">
+                            Username
+                        </label>
+
+                        <input
+                            type="text"
+                            name="username"
+                            class="form-control"
+                            placeholder="Enter username"
+                            required
+                        >
+
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+
+                        <label class="form-label fw-bold">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            name="password"
+                            class="form-control"
+                            placeholder="Enter password"
+                            required
+                        >
+
+                    </div>
+
+                    <!-- Login Button -->
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100"
+                    >
+                        Login
+                    </button>
+
+                </form>
+
+                <!-- Error Message -->
+                {% if error %}
+
+                <div class="alert alert-danger mt-3 mb-0">
+                    {{ error }}
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
